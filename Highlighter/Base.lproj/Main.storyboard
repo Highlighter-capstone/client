@@ -4,6 +4,7 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -46,19 +47,25 @@
                                     </label>
                                 </subviews>
                             </stackView>
-                            <stackView opaque="NO" contentMode="scaleToFill" spacing="79" translatesAutoresizingMaskIntoConstraints="NO" id="ksW-Dm-KJT">
-                                <rect key="frame" x="100" y="768" width="214" height="48"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="ksW-Dm-KJT">
+                                <rect key="frame" x="50" y="785" width="314" height="31"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6oa-8Z-qBc">
-                                        <rect key="frame" x="0.0" y="0.0" width="67.5" height="48"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="120" height="31"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="120" id="GDD-PZ-KbV"/>
+                                        </constraints>
                                         <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain" title="Pick VIdeo"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="비디오 선택"/>
                                         <connections>
                                             <action selector="pickVideoPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="1Mb-GW-pIX"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D6k-Ao-ZW9">
-                                        <rect key="frame" x="146.5" y="0.0" width="67.5" height="48"/>
+                                        <rect key="frame" x="194" y="0.0" width="120" height="31"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="120" id="TdC-KJ-J5J"/>
+                                        </constraints>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="cancel"/>
                                         <connections>
@@ -91,13 +98,13 @@
                         <constraints>
                             <constraint firstItem="tHc-4Z-yCA" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="30" id="L7a-Hg-FR9"/>
                             <constraint firstItem="tHc-4Z-yCA" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="58" id="UzZ-bw-g6k"/>
-                            <constraint firstItem="ksW-Dm-KJT" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="100" id="Y8t-gJ-FhV"/>
+                            <constraint firstItem="ksW-Dm-KJT" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="50" id="Y8t-gJ-FhV"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="ksW-Dm-KJT" secondAttribute="bottom" constant="46" id="d90-l9-pOc"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="OU3-XW-BPe" secondAttribute="trailing" constant="50" id="iug-S9-Sy4"/>
                             <constraint firstItem="OU3-XW-BPe" firstAttribute="top" secondItem="tHc-4Z-yCA" secondAttribute="bottom" constant="70.5" id="kTf-2W-dmP"/>
                             <constraint firstItem="OU3-XW-BPe" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="50" id="lG4-hm-Kk3"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="tHc-4Z-yCA" secondAttribute="trailing" constant="30" id="tDQ-ee-rNd"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="ksW-Dm-KJT" secondAttribute="trailing" constant="100" id="xyF-Iq-JzO"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="ksW-Dm-KJT" secondAttribute="trailing" constant="50" id="xyF-Iq-JzO"/>
                         </constraints>
                     </view>
                     <connections>
@@ -111,7 +118,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="122" y="108"/>
+            <point key="canvasLocation" x="121.73913043478262" y="107.8125"/>
         </scene>
     </scenes>
     <resources>

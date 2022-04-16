@@ -24,6 +24,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        initView()
         // create tap gesture recognizer
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(ViewController.imageTapped(gesture:)))
         
@@ -35,7 +36,14 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         // configure AWS Amplify
         configureAmplify()
     }
-    
+    private func initView(){
+        self.videoView.isHidden = true
+        self.originalSize.isHidden = true
+        self.sizeAfterCompression.isHidden = true
+        self.duration.isHidden = true
+        self.progressBar.isHidden = true
+        self.progressLabel.isHidden = true
+    }
     public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         self.imagePickerController?.dismiss(animated: true, completion: nil)
         
@@ -96,6 +104,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                 }
                 
             case .onStart:
+                self.videoView.isHidden = false
                 self.progressBar.isHidden = false
                 self.progressLabel.isHidden = false
                 self.sizeAfterCompression.isHidden = true
@@ -132,6 +141,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     @IBAction func cancelPressed(_ sender: UIButton) {
         compression?.cancel = true
+        initView()
     }
     
     @objc func imageTapped(gesture: UIGestureRecognizer) {
