@@ -13,6 +13,7 @@
 		98BC2CDB280B059A00067CF8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 98BC2CD9280B059A00067CF8 /* Main.storyboard */; };
 		98BC2CDD280B059C00067CF8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 98BC2CDC280B059C00067CF8 /* Assets.xcassets */; };
 		98BC2CE0280B059C00067CF8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 98BC2CDE280B059C00067CF8 /* LaunchScreen.storyboard */; };
+		98BC2CE9280B066700067CF8 /* LightCompressor in Frameworks */ = {isa = PBXBuildFile; productRef = 98BC2CE8280B066700067CF8 /* LightCompressor */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +32,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				98BC2CE9280B066700067CF8 /* LightCompressor in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -83,6 +85,9 @@
 			dependencies = (
 			);
 			name = Highlighter;
+			packageProductDependencies = (
+				98BC2CE8280B066700067CF8 /* LightCompressor */,
+			);
 			productName = Highlighter;
 			productReference = 98BC2CD0280B059A00067CF8 /* Highlighter.app */;
 			productType = "com.apple.product-type.application";
@@ -111,6 +116,9 @@
 				Base,
 			);
 			mainGroup = 98BC2CC7280B059A00067CF8;
+			packageReferences = (
+				98BC2CE7280B066700067CF8 /* XCRemoteSwiftPackageReference "LightCompressor_iOS" */,
+			);
 			productRefGroup = 98BC2CD1280B059A00067CF8 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -290,6 +298,7 @@
 				DEVELOPMENT_TEAM = PN5JFN8NYT;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Highlighter/Info.plist;
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "${PRODUCT_NAME} library Usage";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -318,6 +327,7 @@
 				DEVELOPMENT_TEAM = PN5JFN8NYT;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Highlighter/Info.plist;
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "${PRODUCT_NAME} library Usage";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -358,6 +368,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		98BC2CE7280B066700067CF8 /* XCRemoteSwiftPackageReference "LightCompressor_iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/AbedElazizShe/LightCompressor_iOS";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.1.9;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		98BC2CE8280B066700067CF8 /* LightCompressor */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 98BC2CE7280B066700067CF8 /* XCRemoteSwiftPackageReference "LightCompressor_iOS" */;
+			productName = LightCompressor;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 98BC2CC8280B059A00067CF8 /* Project object */;
 }
