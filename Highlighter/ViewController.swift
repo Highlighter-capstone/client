@@ -13,15 +13,17 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBOutlet weak var originalSize: UILabel!
     @IBOutlet weak var sizeAfterCompression: UILabel!
     @IBOutlet weak var duration: UILabel!
-    @IBOutlet weak var progressView: UIStackView!
     @IBOutlet weak var progressBar: UIProgressView!
     
     @IBOutlet weak var progressLabel:UILabel!
+    @IBOutlet weak var videoSelectButtton: UIButton!
+    @IBOutlet weak var cancelButton: UIButton!
     private var imagePickerController: UIImagePickerController?
     private var compression: Compression?
     
     private var compressedPath: URL?
-    
+    private var userID:String = "yoonjong"
+    private var timeString:String = "1999-99-99"
     override func viewDidLoad() {
         super.viewDidLoad()
         initView()
@@ -43,6 +45,10 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         self.duration.isHidden = true
         self.progressBar.isHidden = true
         self.progressLabel.isHidden = true
+        self.videoSelectButtton.backgroundColor = .systemIndigo
+        self.videoSelectButtton.layer.cornerRadius = 10
+        self.cancelButton.backgroundColor = .systemRed
+        self.cancelButton.layer.cornerRadius = 10
     }
     public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         self.imagePickerController?.dismiss(animated: true, completion: nil)
@@ -58,9 +64,14 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             self.originalSize.text = "Original size: \(videoToCompress.fileSizeInMB())"
         }
         
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd-HH:mm:ss"
+        formatter.locale = Locale(identifier: "ko")
+        timeString = formatter.string(from: Date())
+        print("timeString", timeString)
         
         // Declare destination path and remove anything exists in it
-        let destinationPath = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("compressed.mp4")
+        let destinationPath = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("\(userID)-\(timeString).mp4")
         try? FileManager.default.removeItem(at: destinationPath)
         
         let startingPoint = Date()
@@ -114,7 +125,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             case .onFailure(let error):
                 self.progressBar.isHidden = true
                 self.progressLabel.isHidden = false
-                self.progressLabel.text = (error as! CompressionError).title
+                self.progressLabel.text = error.title
                 
                 
             case .onCancelled:
@@ -263,7 +274,9 @@ extension ViewController{
         }
     }
     func uploadFile() {
-        let videoKey = "compressed.mp4"
+        
+        let videoKey = "\(userID)-\(timeString).mp4"
+        print("videoKey : \(videoKey)")
         let videoURL = self.compressedPath!
         Amplify.Storage.uploadFile(key: videoKey, local: videoURL) { result in
             switch result {
