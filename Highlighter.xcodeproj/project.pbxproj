@@ -324,7 +324,7 @@
 				DEVELOPMENT_TEAM = PN5JFN8NYT;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Highlighter/Info.plist;
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "${PRODUCT_NAME} library Usage";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Highlighter library Usage";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -353,7 +353,7 @@
 				DEVELOPMENT_TEAM = PN5JFN8NYT;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Highlighter/Info.plist;
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "${PRODUCT_NAME} library Usage";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Highlighter library Usage";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
