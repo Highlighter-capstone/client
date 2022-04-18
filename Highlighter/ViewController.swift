@@ -49,6 +49,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         self.videoSelectButtton.layer.cornerRadius = 10
         self.cancelButton.backgroundColor = .systemRed
         self.cancelButton.layer.cornerRadius = 10
+        self.progressLabel.numberOfLines = 0
+        self.originalSize.numberOfLines = 0
     }
     public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         self.imagePickerController?.dismiss(animated: true, completion: nil)
@@ -180,6 +182,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         initView()
         self.originalSize.isHidden = false
         self.originalSize.text = "백그라운드 진입으로 작업을 중지합니다.\n다시 실행해주세요."
+        self.videoSelectButtton.setTitle("다시 선택하기", for: .normal)
+        
         NotificationCenter.default.removeObserver(self)
     }
     private func configureViewWhenStart(){
@@ -188,19 +192,21 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         self.progressLabel.isHidden = false
         self.sizeAfterCompression.isHidden = true
         self.duration.isHidden = true
-        //self.originalSize.visiblity(gone: false)
     }
     private func configureViewWhenSuccess(){
         self.sizeAfterCompression.isHidden = false
         self.duration.isHidden = false
         self.progressBar.isHidden = true
         self.progressLabel.isHidden = true
+        self.videoSelectButtton.setTitle("비디오 선택", for: .normal)
+        
     }
     private func configureViewWhenFailure(error:CompressionError){
         self.progressBar.isHidden = true
         self.progressLabel.isHidden = false
         self.progressLabel.text = error.title
-        self.progressLabel.numberOfLines = 0
+        self.videoSelectButtton.setTitle("다시 선택하기", for: .normal)
+        
     }
 }
 
