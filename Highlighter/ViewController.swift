@@ -52,7 +52,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         self.imagePickerController?.dismiss(animated: true, completion: nil)
-        
         // Get source video
         let videoToCompress = info[UIImagePickerController.InfoKey(rawValue: "UIImagePickerControllerMediaURL")] as! URL
         
@@ -92,15 +91,16 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                                                     completion: {[weak self] result in
             guard let `self` = self else { return }
             
+            // background processing
+            NotificationCenter.default.addObserver(self, selector: #selector(self.backgroundFunc), name: UIScene.willDeactivateNotification, object: nil)
+
+            
             switch result {
                 
             case .onSuccess(let path):
                 self.compressedPath = path
                 DispatchQueue.main.async { [unowned self] in
-                    self.sizeAfterCompression.isHidden = false
-                    self.duration.isHidden = false
-                    self.progressBar.isHidden = true
-                    self.progressLabel.isHidden = true
+                    self.configureViewWhenSuccess()
                     
                     self.sizeAfterCompression.text = "Size after compression: \(path.fileSizeInMB())"
                     self.duration.text = "Duration: \(String(format: "%.2f", startingPoint.timeIntervalSinceNow * -1)) seconds"
@@ -115,19 +115,10 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                 }
                 
             case .onStart:
-                self.videoView.isHidden = false
-                self.progressBar.isHidden = false
-                self.progressLabel.isHidden = false
-                self.sizeAfterCompression.isHidden = true
-                self.duration.isHidden = true
-                //self.originalSize.visiblity(gone: false)
+                self.configureViewWhenStart()
                 
             case .onFailure(let error):
-                self.progressBar.isHidden = true
-                self.progressLabel.isHidden = false
-                self.progressLabel.text = error.title
-                
-                
+                self.configureViewWhenFailure(error:error)
             case .onCancelled:
                 print("---------------------------")
                 print("Cancelled")
@@ -182,6 +173,34 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         } catch {
             return nil
         }
+    }
+    @objc func backgroundFunc(){
+        print("Entered background!")
+        compression?.cancel = true
+        initView()
+        self.originalSize.isHidden = false
+        self.originalSize.text = "백그라운드 진입으로 작업을 중지합니다.\n다시 실행해주세요."
+        NotificationCenter.default.removeObserver(self)
+    }
+    private func configureViewWhenStart(){
+        self.videoView.isHidden = false
+        self.progressBar.isHidden = false
+        self.progressLabel.isHidden = false
+        self.sizeAfterCompression.isHidden = true
+        self.duration.isHidden = true
+        //self.originalSize.visiblity(gone: false)
+    }
+    private func configureViewWhenSuccess(){
+        self.sizeAfterCompression.isHidden = false
+        self.duration.isHidden = false
+        self.progressBar.isHidden = true
+        self.progressLabel.isHidden = true
+    }
+    private func configureViewWhenFailure(error:CompressionError){
+        self.progressBar.isHidden = true
+        self.progressLabel.isHidden = false
+        self.progressLabel.text = error.title
+        self.progressLabel.numberOfLines = 0
     }
 }
 
@@ -278,14 +297,14 @@ extension ViewController{
         let videoKey = "\(userID)-\(timeString).mp4"
         print("videoKey : \(videoKey)")
         let videoURL = self.compressedPath!
-        Amplify.Storage.uploadFile(key: videoKey, local: videoURL) { result in
-            switch result {
-            case .success(let uploadedData):
-                print(uploadedData)
-            case .failure(let error):
-                print(error)
-            }
-        }
+//        Amplify.Storage.uploadFile(key: videoKey, local: videoURL) { result in
+//            switch result {
+//            case .success(let uploadedData):
+//                print(uploadedData)
+//            case .failure(let error):
+//                print(error)
+//            }
+//        }
     }
 //    func downloadImage() {
 //        Amplify.Storage.downloadData(key: imageKey) { result in
