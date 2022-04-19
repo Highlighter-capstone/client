@@ -38,6 +38,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         // configure AWS Amplify
         configureAmplify()
     }
+    
     private func initView(){
         self.videoView.isHidden = true
         self.originalSize.isHidden = true
@@ -52,6 +53,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         self.progressLabel.numberOfLines = 0
         self.originalSize.numberOfLines = 0
     }
+    
     public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         self.imagePickerController?.dismiss(animated: true, completion: nil)
         // Get source video
@@ -103,17 +105,15 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                 self.compressedPath = path
                 DispatchQueue.main.async { [unowned self] in
                     self.configureViewWhenSuccess()
-                    
                     self.sizeAfterCompression.text = "Size after compression: \(path.fileSizeInMB())"
                     self.duration.text = "Duration: \(String(format: "%.2f", startingPoint.timeIntervalSinceNow * -1)) seconds"
-                    
                     PHPhotoLibrary.shared().performChanges({
                         PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: path)
                     })
                     // 내가작성
                     print("압축된 원본 :\(path)")
-                    self.cropVideo(sourceURL1: path, statTime: 3, endTime: 5)
-                    self.uploadFile()
+//                    self.cropVideo(sourceURL1: path, statTime: 3, endTime: 5)
+                    self.uploadFile(localVideoLocation: path)
                 }
                 
             case .onStart:
@@ -298,19 +298,23 @@ extension ViewController{
             print("Could not configure Amplify", error)
         }
     }
-    func uploadFile() {
+    private func uploadFile(localVideoLocation: URL) {
         
         let videoKey = "\(userID)-\(timeString).mp4"
         print("videoKey : \(videoKey)")
         let videoURL = self.compressedPath!
-//        Amplify.Storage.uploadFile(key: videoKey, local: videoURL) { result in
-//            switch result {
-//            case .success(let uploadedData):
-//                print(uploadedData)
-//            case .failure(let error):
-//                print(error)
-//            }
-//        }
+        print("local videoURL : \(videoURL)")
+        Amplify.Storage.uploadFile(key: videoKey, local: videoURL) { result in
+            switch result {
+            case .success(let uploadedData):
+                print(uploadedData)
+                // 업로드 후 서버에 request
+                self.sendToServer(key: videoKey, localVideoLocation: localVideoLocation)
+            case .failure(let error):
+                print(error)
+            }
+        }
+        
     }
 //    func downloadImage() {
 //        Amplify.Storage.downloadData(key: imageKey) { result in
@@ -324,4 +328,38 @@ extension ViewController{
 //            }
 //        }
 //    }
+    private func sendToServer(key:String, localVideoLocation:URL){
+        guard let url = URL(string: "http://\(getIP):5001") else { return }
+        var request = URLRequest(url:url)
+        request.httpMethod = "POST"
+        let dic:Dictionary = ["video_name": key]
+        do {
+            request.httpBody = try JSONSerialization.data(withJSONObject: dic, options: .prettyPrinted)
+        } catch {
+            print("ERROR : ", error.localizedDescription)
+        }
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("application/json", forHTTPHeaderField: "Accept-Type")
+        
+        print("URLSession 진입")
+        let session = URLSession.shared
+        session.dataTask(with: request, completionHandler: {(data, response, error) in
+            
+            print("data :\(data)")
+            if let returnData = String(data: data!, encoding: .utf8) {
+                print(returnData)
+            }
+            guard let decodedTime = try? JSONDecoder().decode(TimeResponse.self, from: data!) else {
+                print("Error: URLSession Decode - \(error?.localizedDescription ?? ".")")
+                return
+            }
+            print("decoded : ", decodedTime.success, decodedTime.time)
+            print("time[0] : ", decodedTime.time[0].min, decodedTime.time[0].max)
+            
+            for i in decodedTime.time {
+                self.cropVideo(sourceURL1: localVideoLocation, statTime: Float(i.min!), endTime: Float(i.max!))
+            }
+            
+        }).resume()
+    }
 }
