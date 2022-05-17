@@ -298,20 +298,21 @@ extension ViewController{
             print("Could not configure Amplify", error)
         }
     }
+    
     private func uploadFile(localVideoLocation: URL) {
         
         let videoKey = "\(userID)-\(timeString).mp4"
-        print("videoKey : \(videoKey)")
+        print("- videoKey : \(videoKey)")
         let videoURL = self.compressedPath!
-        print("local videoURL : \(videoURL)")
+        print("- local videoURL : \(videoURL)")
         Amplify.Storage.uploadFile(key: videoKey, local: videoURL) { result in
             switch result {
             case .success(let uploadedData):
-                print(uploadedData)
+                print("===== upload to S3 SUCCESS =====", uploadedData)
                 // 업로드 후 서버에 request
                 self.sendToServer(key: videoKey, localVideoLocation: localVideoLocation)
             case .failure(let error):
-                print(error)
+                print("S3 Error : ", error)
             }
         }
         
@@ -345,7 +346,7 @@ extension ViewController{
         let session = URLSession.shared
         session.dataTask(with: request, completionHandler: {(data, response, error) in
             
-            print("data :\(data)")
+            print("===== send to server SUCCESS ===== data :\(data)")
             if let returnData = String(data: data!, encoding: .utf8) {
                 print(returnData)
             }
