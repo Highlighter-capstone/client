@@ -68,7 +68,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         }
         
         let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd-HH:mm:ss"
+        formatter.dateFormat = "yyyy-MM-dd-HH-mm-ss"
         formatter.locale = Locale(identifier: "ko")
         timeString = formatter.string(from: Date())
         print("timeString", timeString)
@@ -329,8 +329,9 @@ extension ViewController{
 //            }
 //        }
 //    }
+    
     private func sendToServer(key:String, localVideoLocation:URL){
-        guard let url = URL(string: "http://\(getIP):5001") else { return }
+        guard let url = URL(string: "http://\(getIP):\(getPORT)") else { return }
         var request = URLRequest(url:url)
         request.httpMethod = "POST"
         let dic:Dictionary = ["video_name": key]
@@ -348,7 +349,7 @@ extension ViewController{
             
             print("===== send to server SUCCESS ===== data :\(data)")
             if let returnData = String(data: data!, encoding: .utf8) {
-                print(returnData)
+                print("== returned data ==", returnData)
             }
             guard let decodedTime = try? JSONDecoder().decode(TimeResponse.self, from: data!) else {
                 print("Error: URLSession Decode - \(error?.localizedDescription ?? ".")")

@@ -9,6 +9,11 @@ import Foundation
 
 var getIP:String{
     get {
-        return "192.168.0.17"
+        return "192.168.0.2"
+    }
+}
+var getPORT:String{
+    get {
+        return "5001"
     }
 }
