@@ -25,8 +25,16 @@ Library : OpenCV, Haarcascades, YOLO
 ---
 ![image](https://user-images.githubusercontent.com/29617557/171855643-6afd50c3-876b-47fa-895f-cbdf382a107d.png)
 
+## 클라이언트 주요 라이브러리
+---
+[LightCompressor_iOS](https://github.com/AbedElazizShe/LightCompressor_iOS) : iOS 동영상 압축 라이브러리
+[aws-amplify](https://github.com/aws-amplify/amplify-ios) : iOS와 AWS S3 와의 연동을 위한 라이브러리
 
-
+## 설치
+---
+```
+git clone https://github.com/Highlighter-capstone/client.git
+```
 [CD1_Highlighter(기초조사서).docx](https://github.com/Highlighter-capstone/server/files/8832473/CD1_Highlighter.docx)
 
 [CD_1_Highlighter(중간 보고서).docx](https://github.com/Highlighter-capstone/server/files/8832490/CD_1_Highlighter.docx)
