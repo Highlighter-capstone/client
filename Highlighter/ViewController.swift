@@ -110,9 +110,9 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                     PHPhotoLibrary.shared().performChanges({
                         PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: path)
                     })
-                    // 내가작성
+
                     print("압축된 원본 :\(path)")
-//                    self.cropVideo(sourceURL1: path, statTime: 3, endTime: 5)
+
                     self.uploadFile(localVideoLocation: path)
                 }
                 
@@ -227,7 +227,6 @@ extension URL {
     }
 }
 
-//내가 작성
 extension ViewController{
     func cropVideo(sourceURL1: URL, statTime:Float, endTime:Float)
     {
@@ -317,18 +316,6 @@ extension ViewController{
         }
         
     }
-//    func downloadImage() {
-//        Amplify.Storage.downloadData(key: imageKey) { result in
-//            switch result {
-//            case .success(let data):
-//                DispatchQueue.main.async {
-//                    self.image = UIImage(data: data)
-//                }
-//            case .failure(let error):
-//                print(error)
-//            }
-//        }
-//    }
     
     private func sendToServer(key:String, localVideoLocation:URL){
         guard let url = URL(string: "http://\(getIP):\(getPORT)") else { return }
@@ -344,7 +331,10 @@ extension ViewController{
         request.addValue("application/json", forHTTPHeaderField: "Accept-Type")
         
         print("URLSession 진입")
-        let session = URLSession.shared
+        let sessionConfig = URLSessionConfiguration.default
+        sessionConfig.timeoutIntervalForRequest = 600
+        sessionConfig.timeoutIntervalForResource = 600
+        let session = URLSession(configuration: sessionConfig)
         session.dataTask(with: request, completionHandler: {(data, response, error) in
             
             print("===== send to server SUCCESS ===== data :\(data)")
@@ -356,7 +346,9 @@ extension ViewController{
                 return
             }
             print("decoded : ", decodedTime.success, decodedTime.time)
-            print("time[0] : ", decodedTime.time[0].min, decodedTime.time[0].max)
+            if !decodedTime.time.isEmpty{
+                print("time[0] : ", decodedTime.time[0].min, decodedTime.time[0].max)
+            }
             
             for i in decodedTime.time {
                 self.cropVideo(sourceURL1: localVideoLocation, statTime: Float(i.min!), endTime: Float(i.max!))
