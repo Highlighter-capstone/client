@@ -40,4 +40,4 @@ git clone https://github.com/Highlighter-capstone/client.git
 
 [CD_1_Highlighter(중간 보고서).docx](https://github.com/Highlighter-capstone/server/files/8832490/CD_1_Highlighter.docx)
 
-[CD_1_Highlighter(최종보고서).docx](https://github.com/Highlighter-capstone/server/files/8832491/CD_1_Highlighter.docx)
+[CD_1_Highlighter(최종보고서).docx](https://github.com/Highlighter-capstone/client/files/8866363/CD_1_Highlighter.docx)
