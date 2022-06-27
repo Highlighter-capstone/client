@@ -21,6 +21,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     private var imagePickerController: UIImagePickerController?
     private var compression: Compression?
     
+    private var originalPath:URL?
     private var compressedPath: URL?
     private var userID:String = "yoonjong"
     private var timeString:String = "1999-99-99"
@@ -58,7 +59,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         self.imagePickerController?.dismiss(animated: true, completion: nil)
         // Get source video
         let videoToCompress = info[UIImagePickerController.InfoKey(rawValue: "UIImagePickerControllerMediaURL")] as! URL
-        
+        self.originalPath = videoToCompress
         let thumbnail = createThumbnailOfVideoFromFileURL(videoURL: videoToCompress.absoluteString)
         videoView.image = UIImage(cgImage: thumbnail!)
         
@@ -351,7 +352,7 @@ extension ViewController{
             }
             
             for i in decodedTime.time {
-                self.cropVideo(sourceURL1: localVideoLocation, statTime: Float(i.min!), endTime: Float(i.max!))
+                self.cropVideo(sourceURL1: self.originalPath!, statTime: Float(i.min!), endTime: Float(i.max!))
             }
             
         }).resume()
