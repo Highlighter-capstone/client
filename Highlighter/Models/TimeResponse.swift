@@ -8,10 +8,10 @@
 import Foundation
 
 struct TimeResponse: Codable{
-    let success:Bool?
-    let time:[Time]
+    let success: Bool?
+    let time: [Time]
 }
-struct Time:Codable{
-    let min:Int?
-    let max:Int?
+struct Time: Codable{
+    let min: Int
+    let max: Int
 }
